@@ -1,0 +1,11 @@
+{
+  "name": "floaty-hearts",
+  "version": "1.0.0",
+  "description": "Interactive floaty hearts overlay",
+  "main": "index.html",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Mark McIntyre",
+  "license": "ISC"
+}
