@@ -1,6 +1,9 @@
 body {
     font-family: sans-serif;
-    padding: 2em 20%;
+    max-width: 1024px;
+    display: block;
+    margin: auto;
+    padding: 1em;
 }
 
 img {
