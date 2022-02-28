@@ -5,17 +5,6 @@
  */
 
 /**
-     * Position represents a point in 3D space.
-     */
- class Position {
-    constructor(x, y, z) {
-        this.x = parseFloat(x || 0);
-        this.y = parseFloat(y || 0);
-        this.z = parseFloat(z || 0);
-    }
-}
-
-/**
  * Particle is a floaty heart with properties such as position, rotation, speed
  * and other attributes needed for a particle system.
  */
@@ -25,13 +14,20 @@ class Particle {
     static chars = ['👍', '😍', '❤️', '🥰', '🤩'];
 
     constructor() {
+        this.position = {
+            x: 0,
+            y: 0,
+            z: 0
+        };
         this.reinitialize();
     }
     get progress() {
         return this.ttl / this.maxTtl;
     }
     reinitialize() {
-        this.position = new Position(Math.floor(Math.random() * 100) - 50, 0, 0);
+        this.position.x = Math.floor(Math.random() * 100) - 50;
+        this.position.y = 0;
+        this.position.z = 0;
         this.char = Particle.chars[Math.floor(Math.random() * Particle.chars.length)];
         this.speed = Math.random() * .5 + .75;
         this.maxTtl = 360 * Math.random(); // 0 to 3 seconds
