@@ -71,14 +71,14 @@ class SpiralParticleGenerator {
      * Updates the positions of this SpiralParticleGenerator's particles
      * for a single timestep.
      */
-    update() {
+    update(timestep = 16.66) {
 
         const canvasWidth = this.context.canvas.width;
         const canvasHeight = this.context.canvas.height;
         const helixRadius = canvasWidth / 10;
 
         this.particles.forEach(particle => {
-            particle.position.y -= particle.speed * (canvasHeight / 300);
+            particle.position.y -= particle.speed * (timestep / 12) * (canvasHeight / 300);
             particle.position.x = Math.cos(Math.PI * 2 * (particle.position.y / canvasHeight) * particle.rotation*3) * helixRadius;
             particle.position.z = Math.sin(Math.PI * 2 * (particle.position.y / canvasHeight) * particle.rotation*3) * helixRadius;
             particle.ttl += 1;
@@ -116,7 +116,7 @@ class SpiralParticleGenerator {
 
         // Loop through our particles and render them to the canvas.
         this.particles.forEach(particle => {
-            const particleSize = fullParticleSize * ((particle.position.z/(canvasHeight/2))+.5);
+            const particleSize = fullParticleSize * ((particle.position.z/canvasHeight)+.5);
             const position = this.#projectPoint(particle);
             this.context.save();
             this.context.translate(origin.x + position.x - (particleSize / 2), origin.y + position.y + particleSize / 2);
@@ -133,6 +133,7 @@ class SpiralParticleGenerator {
 
     const canvas = document.getElementById('floaty')?.querySelector('canvas');
     const context = canvas?.getContext('2d');
+    let previous = Date.now();
 
     if (context) {
         const particles = new SpiralParticleGenerator(5, context);
@@ -140,9 +141,10 @@ class SpiralParticleGenerator {
             canvas.width = canvas.offsetWidth * window.devicePixelRatio;
             canvas.height = canvas.offsetHeight * window.devicePixelRatio;
         }
-        function render() {
-            particles.update();
+        function render(timestamp) {
+            particles.update(timestamp - previous);
             particles.render();
+            previous = timestamp;
             window.requestAnimationFrame(render);
         }
         window.addEventListener('load', setSize);
